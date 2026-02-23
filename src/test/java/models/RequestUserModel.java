@@ -18,8 +18,6 @@ public class RequestUserModel {
         this.password = password;
         this.email = email;
 
-        //Aici vom aplica regulile de business pentru maparea datelor
-
         this.email = System.currentTimeMillis()+this.email;
     }
 
