@@ -22,4 +22,4 @@ public class ImageBETest {
         response1.body().prettyPrint();
         Assert.assertEquals(response1.getStatusCode(), 200);
     }
-}Re
+}
