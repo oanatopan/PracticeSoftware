@@ -2,31 +2,31 @@ package client;
 
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import types.RequestMethodType;
 
 public class RestClient {
+    //Trebuie sa fac doua actiuni pe aceasta clasa
+    //Trebuie sa configurez clientul
+    //Pe baza configurarilor trebuie sa pot sa execut orice actiune (get, post, put, delete)
+
 
     public Response performRequest(String requestType, RequestSpecification request, String endpoint) {
         switch (requestType) {
-            case "POST":
+            case RequestMethodType.REQUEST_POST:
                 return prepareClient(request).post(endpoint);
-
-            case "PUT":
+            case RequestMethodType.REQUEST_PUT:
                 return prepareClient(request).put(endpoint);
-
-            case "GET":
+            case RequestMethodType.REQUEST_GET:
                 return prepareClient(request).get(endpoint);
-
-            case "DELETE":
+            case RequestMethodType.REQUEST_DELETE:
                 return prepareClient(request).delete(endpoint);
-
-            default:
-                throw new IllegalArgumentException("Unsupported request type: " + requestType);
         }
+        return null;
     }
 
-    public RequestSpecification prepareClient(RequestSpecification request) {
+    public RequestSpecification prepareClient(RequestSpecification request){
         request.baseUri("https://api.practicesoftwaretesting.com");
-        request.header("Content-Type", "application/json");
+        request.header("Content-type", "application/json");
         request.header("Accept", "application/json");
         return request;
     }
