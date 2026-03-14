@@ -8,6 +8,9 @@ public class AddressModel {
     private String country;
     private String postal_code;
 
+    public AddressModel() {
+    }
+
     public AddressModel(String street, String city, String state, String country, String postal_code) {
         this.street = street;
         this.city = city;
