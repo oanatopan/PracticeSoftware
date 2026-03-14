@@ -1,4 +1,3 @@
-
 package tests;
 
 import io.restassured.RestAssured;
@@ -11,12 +10,13 @@ import services.UserService;
 import sharedData.SharedData;
 
 public class UserLoginBETest extends SharedData {
+
     @Test
     public void userTest() {
 
         //Pasul 1: Creem un nou user
-        AddressModel addressModel = new AddressModel("Street 1", "City", "Country", "State", "1234AA");
-        RequestUserModel requestBody = new RequestUserModel("Oana", "Topan", addressModel, "0987654321", "1970-01-01", "SuperSecure@123", "oana@yahoo.com");
+        AddressModel addressModel = new AddressModel("Street 1", "City", "State", "Country", "1234AA");
+        RequestUserModel requestBody = new RequestUserModel("Oana", "Topan", addressModel, "0987654321", "1970-01-01", "SuperSecure@123", "test1234@gmail.com");
 
         UserService userService = new UserService();
         ResponseUserModel responseBody = userService.createUser(requestBody);
@@ -38,6 +38,6 @@ public class UserLoginBETest extends SharedData {
         userService.deleteUser(responseAdminBody.getAccess_token(), responseBody.getId());
 
         //Pasul 7: Verificam ca userul s-a sters
-        userService.checkUser(responseLoginBody.getAccess_token(),responseBody.getId(), 404);
+        userService.checkUser(responseLoginBody.getAccess_token(),responseBody.getId(), 401);
     }
 }

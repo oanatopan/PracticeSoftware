@@ -5,44 +5,23 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import models.AddressModel;
 import models.RequestUserModel;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import models.ResponseUserModel;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.LoginPage;
+import services.UserService;
+import sharedData.SharedData;
 
-public class UserBETest {
+public class UserBETest extends SharedData {
+
     @Test
-    public void userTest (){
-        RestAssured.baseURI="https://api.practicesoftwaretesting.com";
-        RequestSpecification request = RestAssured.given();
-        request.header("Content-type","application/json");
-        request.header("Accept","application/json");
-
+    public void userTest(){
         AddressModel addressModel = new AddressModel("Street 1", "City", "State", "Country", "1234AA");
-        RequestUserModel requestBody = new RequestUserModel("Oana", "Topan", addressModel, "0987654321", "1970-01-01", "SuperSecure@123", "oana@gmail.com");
-        request.body(requestBody);
-        Response response = request.post("/users/register");
-        System.out.println(response.getStatusLine());
-        response.body().prettyPrint();
-        Assert.assertEquals(response.getStatusCode(),201);
+        RequestUserModel requestBody = new RequestUserModel("Oana", "Topan", addressModel, "0987654321", "1970-01-01", "SuperSecure@123", "test1234@gmail.com");
 
+        UserService userService = new UserService();
+        ResponseUserModel responseBody = userService.createUser(requestBody);
 
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://practicesoftwaretesting.com/auth/login");
-        driver.manage().window().maximize();
-
-        WebElement emailElement = driver.findElement(By.id("email"));
-        emailElement.sendKeys(requestBody.getEmail());
-
-        WebElement passwordElement = driver.findElement(By.id("password"));
-        passwordElement.sendKeys(requestBody.getPassword());
-
-        WebElement loginButton = driver.findElement(By.className("btnSubmit"));
-        loginButton.click();
-
-    }
-}
-
-
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.loginProcess(requestBody.getEmail(), requestBody.getPassword());
+    }}
